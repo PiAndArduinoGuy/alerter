@@ -41,5 +41,6 @@ class SecurityConfigSubscriber:
             self.alerter_service.alert(zone_number)
         elif securityStatus == 'SAFE':
             print("Security status is safe. Alert will not be triggered.")
+            self.alerter_service.stop_alert()
         else:
             print(f"Unrecognized security status {securityStatus}")
