@@ -13,22 +13,23 @@ class SecurityConfigSubscriber:
         connection = pika.BlockingConnection(
             pika.ConnectionParameters(host=rabbitmq_host)
         )
-        channel = connection.channel()
-        channel.exchange_declare(exchange=exchange_name,
+        self.channel = connection.channel()
+        self.channel.exchange_declare(exchange=exchange_name,
                                  exchange_type='fanout',
                                  durable=True)
 
-        channel.queue_declare(queue=alerter_security_config_queue_name)
+        self.channel.queue_declare(queue=alerter_security_config_queue_name)
 
-        channel.queue_bind(exchange=exchange_name,
+        self.channel.queue_bind(exchange=exchange_name,
                            queue=alerter_security_config_queue_name)
 
-        channel.basic_consume(queue=alerter_security_config_queue_name,
+        self.channel.basic_consume(queue=alerter_security_config_queue_name,
                               on_message_callback=self.receive_security_config,
                               auto_ack=True)
 
+    def listen_for_security_config_messages(self):
         print("Listening for messages...")
-        channel.start_consuming()
+        self.channel.start_consuming()
 
     def receive_security_config(self, ch, method, properties, body):
         securityConfigString = body.decode()

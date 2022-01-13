@@ -25,10 +25,12 @@ class KeyPad:
             return len(pressed_keys) == 0
 
         entered_password = []
+        print('Listening for keypad presses...')
         while _keys_not_yet_pressed(self.keypad.pressed_keys) or _is_accept_key(self.keypad.pressed_keys[0]):
             if not _keys_not_yet_pressed(self.keypad.pressed_keys):
                 entered_password.append(self.keypad.pressed_keys[0])
             time.sleep(0.1)
+        print(f"Password entered: {entered_password}")
         return entered_password
 
 

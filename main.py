@@ -1,5 +1,8 @@
 import sys
+
+from keypad import KeyPad
 from security_config_subscriber import SecurityConfigSubscriber
+from threading import Thread
 
 if __name__ == '__main__':
     rabbitmq_parameters = sys.argv[1:]
@@ -10,4 +13,12 @@ if __name__ == '__main__':
                                                           alerter_security_config_queue_name,
                                                           exchange_name)
 
+    security_config_subscriber_thread = Thread(name='security_config_subscriber_thread',
+                                               target=security_config_subscriber.listen_for_security_config_messages)
+    keypad = KeyPad()
+
+    keypad_thread = Thread(name='keypad_thread',
+                           target=keypad.get_entered_password)
+    security_config_subscriber_thread.start()
+    keypad_thread.start()
 
