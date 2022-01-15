@@ -14,3 +14,8 @@ class ValidationUtil:
     def validate_alerter_not_yet_triggered(triggered_zone_number):
         if not triggered_zone_number == -1:
             raise AlerterError(f"Zone {triggered_zone_number} has already triggered the alerter.")
+
+    @staticmethod
+    def validate_alerter_triggered(triggered_zone_number):
+        if triggered_zone_number == -1:
+            raise AlerterError("Alerter not triggered yet.")

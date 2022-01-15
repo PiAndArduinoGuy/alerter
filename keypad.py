@@ -4,9 +4,11 @@ import adafruit_matrixkeypad
 import board
 import digitalio
 
+from alerter_service import AlerterService
+
 
 class KeyPad:
-    def __init__(self):
+    def __init__(self, alerter_service: AlerterService):
         rows = [digitalio.DigitalInOut(x) for x in (board.D26, board.D19, board.D13, board.D6)]
         cols = [digitalio.DigitalInOut(x) for x in (board.D5, board.D20, board.D11, board.D9)]
         keys = ((1, 2, 3, "A"),
@@ -16,6 +18,7 @@ class KeyPad:
 
         self.keypad = adafruit_matrixkeypad.Matrix_Keypad(rows, cols, keys)
         self.password = '1234'
+        self.alerter_service = alerter_service
 
     def get_entered_password(self):
         def _is_accept_key(pressed_key):
@@ -32,10 +35,11 @@ class KeyPad:
                 if _is_accept_key(pressed_key):
                     entered_password = ''
                     for key in entered_keys_array:
-                        entered_password = entered_password + key
+                        entered_password = entered_password + str(key)
                     print(f"Password entered: {entered_password}")
                     if entered_password == self.password:
                         print("Password confirmed. Attempting to silence alarm.")
+                        self.alerter_service.stop_alert()
                     else:
                         print("Password incorrect.")
                     entered_keys_array = [] # reset entered password for repeat retries

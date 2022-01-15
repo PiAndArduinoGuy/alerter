@@ -8,8 +8,9 @@ class SecurityConfigSubscriber:
     def __init__(self,
                  rabbitmq_host: str,
                  alerter_security_config_queue_name: str,
-                 exchange_name: str):
-        self.alerter_service = AlerterService()
+                 exchange_name: str,
+                 alerter_service: AlerterService):
+        self.alerter_service = alerter_service
         connection = pika.BlockingConnection(
             pika.ConnectionParameters(host=rabbitmq_host)
         )
