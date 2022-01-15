@@ -19,19 +19,30 @@ class KeyPad:
 
     def get_entered_password(self):
         def _is_accept_key(pressed_key):
-            return pressed_key != 'A'
+            return pressed_key == 'A'
 
         def _keys_not_yet_pressed(pressed_keys):
             return len(pressed_keys) == 0
 
-        entered_password = []
+        entered_keys_array = []
         print('Listening for keypad presses...')
-        while _keys_not_yet_pressed(self.keypad.pressed_keys) or _is_accept_key(self.keypad.pressed_keys[0]):
+        while True:
             if not _keys_not_yet_pressed(self.keypad.pressed_keys):
-                entered_password.append(self.keypad.pressed_keys[0])
-            time.sleep(0.1)
-        print(f"Password entered: {entered_password}")
-        return entered_password
+                pressed_key = self.keypad.pressed_keys[0]
+                if _is_accept_key(pressed_key):
+                    entered_password = ''
+                    for key in entered_keys_array:
+                        entered_password = entered_password + key
+                    print(f"Password entered: {entered_password}")
+                    if entered_password == self.password:
+                        print("Password confirmed. Attempting to silence alarm.")
+                    else:
+                        print("Password incorrect.")
+                    entered_keys_array = [] # reset entered password for repeat retries
+                else:
+                    entered_keys_array.append(pressed_key)
+            time.sleep(0.2)
+
 
 
 
