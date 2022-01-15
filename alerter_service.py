@@ -12,7 +12,7 @@ class AlerterService:
     def alert(self, zone_number):
         try:
             ValidationUtil.validate_zone_number(zone_number)
-            ValidationUtil.validate_alerter_not_yet_triggered(zone_number)
+            ValidationUtil.validate_alerter_not_yet_triggered(self.triggered_zone)
             self._sound_alarm()
         except AlerterError as alerter_error:
             print(f"AlerterError occurred with message '{alerter_error}'")

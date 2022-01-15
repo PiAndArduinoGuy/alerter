@@ -38,7 +38,7 @@ class SecurityConfigSubscriber:
         print(f"New security config received: {securityConfig}")
         securityStatus = securityConfig['securityStatus']
         if securityStatus == 'BREACHED':
-            print("Security status is breached, sounding the alarm.")
+            print("Security status is breached. Attempting alert")
             zone_number = securityConfig['zoneNumber']
             self.alerter_service.alert(zone_number)
         elif securityStatus == 'SAFE':
