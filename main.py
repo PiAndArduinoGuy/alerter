@@ -19,7 +19,8 @@ if __name__ == '__main__':
     keypad = KeyPad(alerter_service,
                     rabbitmq_host,
                     alerter_security_config_queue_name,
-                    exchange_name)
+                    exchange_name,
+                    security_config_subscriber)
 
     security_config_subscriber_thread = Thread(name='security_config_subscriber_thread',
                                                target=security_config_subscriber.listen_for_security_config_messages)

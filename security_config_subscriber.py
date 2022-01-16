@@ -11,6 +11,7 @@ class SecurityConfigSubscriber:
                  alerter_security_config_queue_name: str,
                  exchange_name: str,
                  alerter_service: AlerterService):
+        self.received_security_config = {}
         self.alerter_service = alerter_service
         connection = pika.BlockingConnection(
             pika.ConnectionParameters(host=rabbitmq_host)
@@ -36,6 +37,7 @@ class SecurityConfigSubscriber:
     def receive_security_config(self, ch, method, properties, body):
         securityConfigString = body.decode()
         securityConfig = json.loads(securityConfigString)
+        self.received_security_config = securityConfig
         print(f"New security config received: {securityConfig}")
         securityStatus = securityConfig['securityStatus']
         if securityStatus == 'BREACHED':
