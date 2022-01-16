@@ -35,17 +35,8 @@ class SecurityConfigSubscriber:
         self.channel.start_consuming()
 
     def receive_security_config(self, ch, method, properties, body):
-        securityConfigString = body.decode()
-        securityConfig = json.loads(securityConfigString)
-        self.received_security_config = securityConfig
-        print(f"New security config received: {securityConfig}")
-        securityStatus = securityConfig['securityStatus']
-        if securityStatus == 'BREACHED':
-            print("Security status is breached. Attempting alert")
-            zone_number = securityConfig['zoneNumber']
-            self.alerter_service.alert(zone_number)
-        elif securityStatus == 'SAFE':
-            print("Security status is safe. Alert will not be triggered.")
-            self.alerter_service.stop_alert()
-        else:
-            print(f"Unrecognized security status {securityStatus}")
+        security_config_string = body.decode()
+        security_config = json.loads(security_config_string)
+        self.received_security_config = security_config
+        print(f"New security config received: {security_config}")
+        self.alerter_service.perform_alerting_given_security_config(security_config)

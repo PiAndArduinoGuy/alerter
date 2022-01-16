@@ -10,7 +10,7 @@ from security_config_publisher import SecurityConfigPublisher
 from security_config_subscriber import SecurityConfigSubscriber
 
 
-class KeyPad:
+class KeyPadAlarmSilencer:
     def __init__(self,
                  alerter_service: AlerterService,
                  rabbitmq_host: str,
@@ -44,25 +44,34 @@ class KeyPad:
             if not _keys_not_yet_pressed(self.keypad.pressed_keys):
                 pressed_key = self.keypad.pressed_keys[0]
                 if _is_accept_key(pressed_key):
-                    entered_password = ''
-                    for key in entered_keys_array:
-                        entered_password = entered_password + str(key)
-                    print(f"Password entered: {entered_password}")
-                    if entered_password == self.password:
-                        print("Password confirmed. Attempting to silence alarm.")
-                        self.alerter_service.stop_alert()
-                        received_security_config = self.security_config_subscriber.received_security_config
-                        print(
-                            f"The subscriber received the security config {received_security_config}. Updating the securityStatus field to SAFE before publishing.")
-
-                        new_security_config = received_security_config
-                        new_security_config['securityStatus'] = 'SAFE'
-                        new_security_config_json_string = json.dumps(received_security_config)
-                        print(f"Publishing {new_security_config_json_string}")
-                        self.security_config_publisher.send_updated_security_config(new_security_config_json_string)
-                    else:
-                        print("Password incorrect.")
-                    entered_keys_array = []  # reset entered password for repeat retries
+                    entered_keys_array = self.handle_accepted_password(entered_keys_array)
                 else:
                     entered_keys_array.append(pressed_key)
             time.sleep(0.2)
+
+    def handle_accepted_password(self, entered_keys_array):
+        entered_password = ''
+        for key in entered_keys_array:
+            entered_password = entered_password + str(key)
+        print(f"Password entered: {entered_password}")
+        if entered_password == self.password:
+            self.handle_correct_password()
+        else:
+            print("Password incorrect.")
+        entered_keys_array = []  # reset entered password for repeat retries
+        return entered_keys_array
+
+    def handle_correct_password(self):
+        print("Password confirmed. Attempting to silence alarm.")
+        self.alerter_service.stop_alert()
+        self.publish_updated_security_config()
+
+    def publish_updated_security_config(self):
+        received_security_config = self.security_config_subscriber.received_security_config
+        print(
+            f"The subscriber received the security config {received_security_config}. Updating the securityStatus field to SAFE before publishing.")
+        new_security_config = received_security_config
+        new_security_config['securityStatus'] = 'SAFE'
+        new_security_config_json_string = json.dumps(received_security_config)
+        print(f"Publishing {new_security_config_json_string}")
+        self.security_config_publisher.send_updated_security_config(new_security_config_json_string)
