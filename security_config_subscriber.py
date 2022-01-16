@@ -1,5 +1,6 @@
-import pika
 import json
+
+import pika
 
 from alerter_service import AlerterService
 
@@ -16,17 +17,17 @@ class SecurityConfigSubscriber:
         )
         self.channel = connection.channel()
         self.channel.exchange_declare(exchange=exchange_name,
-                                 exchange_type='fanout',
-                                 durable=True)
+                                      exchange_type='fanout',
+                                      durable=True)
 
         self.channel.queue_declare(queue=alerter_security_config_queue_name)
 
         self.channel.queue_bind(exchange=exchange_name,
-                           queue=alerter_security_config_queue_name)
+                                queue=alerter_security_config_queue_name)
 
         self.channel.basic_consume(queue=alerter_security_config_queue_name,
-                              on_message_callback=self.receive_security_config,
-                              auto_ack=True)
+                                   on_message_callback=self.receive_security_config,
+                                   auto_ack=True)
 
     def listen_for_security_config_messages(self):
         print("Listening for messages...")

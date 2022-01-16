@@ -5,10 +5,15 @@ import board
 import digitalio
 
 from alerter_service import AlerterService
+from security_config_publisher import SecurityConfigPublisher
 
 
 class KeyPad:
-    def __init__(self, alerter_service: AlerterService):
+    def __init__(self,
+                 alerter_service: AlerterService,
+                 rabbitmq_host: str,
+                 alerter_security_config_queue_name: str,
+                 exchange_name: str):
         rows = [digitalio.DigitalInOut(x) for x in (board.D26, board.D19, board.D13, board.D6)]
         cols = [digitalio.DigitalInOut(x) for x in (board.D5, board.D20, board.D11, board.D9)]
         keys = ((1, 2, 3, "A"),
@@ -19,6 +24,8 @@ class KeyPad:
         self.keypad = adafruit_matrixkeypad.Matrix_Keypad(rows, cols, keys)
         self.password = '1234'
         self.alerter_service = alerter_service
+        self.security_config_publisher = SecurityConfigPublisher(rabbitmq_host, alerter_security_config_queue_name,
+                                                                 exchange_name)
 
     def get_entered_password(self):
         def _is_accept_key(pressed_key):
@@ -40,14 +47,14 @@ class KeyPad:
                     if entered_password == self.password:
                         print("Password confirmed. Attempting to silence alarm.")
                         self.alerter_service.stop_alert()
+                        self.security_config_publisher.send_updated_security_config(
+                            "{\"securityStatus\":\"SAFE\",\"securityState\":\"DISARMED\", \"zoneNumber\":\"2\"}")
                     else:
                         print("Password incorrect.")
-                    entered_keys_array = [] # reset entered password for repeat retries
+                    entered_keys_array = []  # reset entered password for repeat retries
                 else:
                     entered_keys_array.append(pressed_key)
             time.sleep(0.2)
-
-
 
 
 if __name__ == '__main__':
