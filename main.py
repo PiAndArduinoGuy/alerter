@@ -1,9 +1,9 @@
 import sys
+from threading import Thread
 
 from alerter_service import AlerterService
 from keypad_alarm_silencer import KeyPadAlarmSilencer
 from security_config_subscriber import SecurityConfigSubscriber
-from threading import Thread
 
 if __name__ == '__main__':
     rabbitmq_parameters = sys.argv[1:]
@@ -16,11 +16,11 @@ if __name__ == '__main__':
                                                           exchange_name,
                                                           alerter_service)
 
-    keypad_alarm_silencer = KeyPadAlarmSilencer(alerter_service,
-                                                rabbitmq_host,
-                                                alerter_security_config_queue_name,
-                                                exchange_name,
-                                                security_config_subscriber)
+    keypad_alarm_silencer = KeyPadAlarmSilencer(
+        rabbitmq_host,
+        alerter_security_config_queue_name,
+        exchange_name,
+        security_config_subscriber)
 
     security_config_subscriber_thread = Thread(name='security_config_subscriber_thread',
                                                target=security_config_subscriber.listen_for_security_config_messages)
@@ -28,4 +28,3 @@ if __name__ == '__main__':
                            target=keypad_alarm_silencer.get_entered_password)
     security_config_subscriber_thread.start()
     keypad_thread.start()
-

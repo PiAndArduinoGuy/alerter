@@ -5,14 +5,12 @@ import adafruit_matrixkeypad
 import board
 import digitalio
 
-from alerter_service import AlerterService
 from security_config_publisher import SecurityConfigPublisher
 from security_config_subscriber import SecurityConfigSubscriber
 
 
 class KeyPadAlarmSilencer:
     def __init__(self,
-                 alerter_service: AlerterService,
                  rabbitmq_host: str,
                  alerter_security_config_queue_name: str,
                  exchange_name: str,
@@ -26,7 +24,6 @@ class KeyPadAlarmSilencer:
 
         self.keypad = adafruit_matrixkeypad.Matrix_Keypad(rows, cols, keys)
         self.password = '1234'
-        self.alerter_service = alerter_service
         self.security_config_publisher = SecurityConfigPublisher(rabbitmq_host, alerter_security_config_queue_name,
                                                                  exchange_name)
         self.security_config_subscriber = security_config_subscriber
@@ -63,7 +60,6 @@ class KeyPadAlarmSilencer:
 
     def handle_correct_password(self):
         print("Password confirmed. Attempting to silence alarm.")
-        self.alerter_service.stop_alert()
         self.publish_updated_security_config()
 
     def publish_updated_security_config(self):
