@@ -1,7 +1,7 @@
 import sys
 from threading import Thread
 
-from service.alerter_service import AlerterService
+from service.alert_delegator_service import AlerterService
 from security_config_subscriber import SecurityConfigSubscriber
 from service.security_state_alerter_service import SecurityStateAlerterService
 from service.security_status_alerter_service import SecurityStatusAlerterService

@@ -2,7 +2,7 @@ import json
 
 import pika
 
-from service.alerter_service import AlerterService
+from service.alert_delegator_service import AlerterService
 
 
 class SecurityConfigSubscriber:
@@ -39,4 +39,4 @@ class SecurityConfigSubscriber:
         security_config = json.loads(security_config_string)
         self.received_security_config = security_config
         print(f"New security config received: {security_config}")
-        self.alerter_service.perform_alerting_given_security_config(security_config)
+        self.alerter_service.delegate(security_config)
