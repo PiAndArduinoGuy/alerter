@@ -2,7 +2,7 @@ import json
 
 import pika
 
-from alerter_service import AlerterService
+from service.alerter_service import AlerterService
 
 
 class SecurityConfigSubscriber:
