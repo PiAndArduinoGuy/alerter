@@ -7,16 +7,6 @@ class SecurityStateAlerterService(Alerter):
         super().__init__()
         self.alarm_arm_led_indicator = LED(25)
 
-    def alert_given(self, condition):
-        if condition == 'ARMED':
-            print("Security state is armed.")
-            self.alert()
-        elif condition == 'DISARMED':
-            print("Security state is disarmed. Alarm arm LED indicator will be turned off.")
-            self.stop_alert()
-        else:
-            print(f"Unrecognized security state {condition}")
-
     def alert(self):
         if not self.alarm_arm_led_indicator.is_active:
             print("Alarm arm LED indicator will be turned on.")

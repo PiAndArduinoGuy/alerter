@@ -8,16 +8,6 @@ class SecurityStatusAlerterService(Alerter):
         super().__init__()
         self.buzzer = Buzzer(15)
 
-    def alert_given(self, condition):
-        if condition == 'BREACHED':
-            print("Security status is breached. Attempting to alert")
-            self.alert()
-        elif condition == 'SAFE':
-            print("Security status is safe. Attempting to stop alert.")
-            self.stop_alert()
-        else:
-            print(f"Unrecognized security status {condition}")
-
     def alert(self):
         self._sound_alarm()
 

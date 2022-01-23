@@ -11,6 +11,6 @@ class AlerterService:
 
     def delegate(self, security_config):
         security_status = security_config['securityStatus']
-        self.security_status_alerter_service.alert_given(security_status)
+        self.security_status_alerter_service.alert_given(security_status == 'BREACHED', security_status == 'SAFE')
         security_state = security_config['securityState']
-        self.security_state_alerter_service.alert_given(security_state)
+        self.security_state_alerter_service.alert_given(security_state == 'ARMED', security_state == 'DISARMED')
