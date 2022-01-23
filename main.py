@@ -3,6 +3,7 @@ from threading import Thread
 
 from service.alerter_service import AlerterService
 from security_config_subscriber import SecurityConfigSubscriber
+from service.security_state_alerter_service import SecurityStateAlerterService
 from service.security_status_alerter_service import SecurityStatusAlerterService
 
 if __name__ == '__main__':
@@ -11,7 +12,9 @@ if __name__ == '__main__':
     alerter_security_config_queue_name = rabbitmq_parameters[1]
     exchange_name = rabbitmq_parameters[2]
     security_status_alerter_service = SecurityStatusAlerterService()
-    alerter_service = AlerterService(security_status_alerter_service)
+    security_state_alerter_service = SecurityStateAlerterService()
+    alerter_service = AlerterService(security_status_alerter_service,
+                                     security_state_alerter_service)
     security_config_subscriber = SecurityConfigSubscriber(rabbitmq_host,
                                                           alerter_security_config_queue_name,
                                                           exchange_name,
