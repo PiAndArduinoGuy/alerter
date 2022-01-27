@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+import logging
 
 class Alerter(ABC):
     def __init__(self):
@@ -7,13 +7,13 @@ class Alerter(ABC):
 
     def alert_given(self, alert_condition, stop_alert_condition):
         if alert_condition:
-            print(f"Alert condition met, alert method called.")
+            logging.info("Alert condition met, alert method called.")
             self.alert()
         elif stop_alert_condition:
-            print(f"Stop alert condition met, stop alert method called.")
+            logging.info("Stop alert condition met, stop alert method called.")
             self.stop_alert()
         else:
-            print(f"Neither alert condition nor stop alert condition was met.")
+            logging.info("Neither alert condition nor stop alert condition was met.")
 
     @abstractmethod
     def alert(self):
