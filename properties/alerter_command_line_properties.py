@@ -12,6 +12,7 @@ class AlerterCommandLineProperties(AlerterProperties):
         parser.add_argument("--alerter_security_config_queue_name", required=True)
         parser.add_argument("--exchange_name", required=True)
         self.arguments = vars(parser.parse_args())
+        self.set_alerter_properties()
 
     def set_logging_file_location(self):
         self._logging_file_location = self.arguments["logging_file_location"]
