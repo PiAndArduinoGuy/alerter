@@ -23,7 +23,4 @@ if __name__ == '__main__':
                                                           alerter_properties.get_exchange_name(),
                                                           alerter_service)
 
-    security_config_subscriber_thread = Thread(name='security_config_subscriber_thread',
-                                               target=security_config_subscriber.listen_for_security_config_messages)
-
-    security_config_subscriber_thread.start()
+    security_config_subscriber.listen_for_security_config_messages()

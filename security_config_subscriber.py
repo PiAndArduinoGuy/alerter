@@ -3,6 +3,7 @@ import logging
 import time
 
 import pika
+from pika.exceptions import AMQPConnectionError
 
 from service.alert_delegator_service import AlerterService
 
@@ -37,11 +38,15 @@ class SecurityConfigSubscriber:
                                       auto_ack=True)
                 logging.info("Listening for messages...")
                 channel.start_consuming()
-            except Exception as e:
-                logging.error(e)
-                logging.info("Connection failed, attempting to reconnect.")
+            except AMQPConnectionError as e:
+                logging.error("An AMQPConnectionError has occurred: %r, this exception is eligible for reconnect.", e)
                 time.sleep(5)
+                logging.info("Attempting to reconnect.")
                 continue
+            except Exception as e:
+                logging.error(
+                    "Exception occurred listening to messages: %r, this exception is not eligible for reconnect.", e)
+                raise
 
     def receive_security_config(self, ch, method, properties, body):
         security_config_string = body.decode()
