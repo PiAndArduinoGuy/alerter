@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from properties.validation.alerter_properties_validator import AlerterPropertiesValidator
+
 
 class AlerterProperties(ABC):
     def __init__(self):
@@ -9,15 +11,19 @@ class AlerterProperties(ABC):
         self._exchange_name = None
 
     def get_logging_file_location(self):
+        AlerterPropertiesValidator.validate_property_non_none(self._logging_file_location)
         return self._logging_file_location
 
     def get_rabbitmq_host(self):
+        AlerterPropertiesValidator.validate_property_non_none(self._rabbitmq_host)
         return self._rabbitmq_host
 
     def get_alerter_security_config_queue_name(self):
+        AlerterPropertiesValidator.validate_property_non_none(self._alerter_security_config_queue_name)
         return self._alerter_security_config_queue_name
 
     def get_exchange_name(self):
+        AlerterPropertiesValidator.validate_property_non_none(self._exchange_name)
         return self._exchange_name
 
     @abstractmethod
