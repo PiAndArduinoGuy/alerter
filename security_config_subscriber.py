@@ -5,8 +5,11 @@ import pika
 from service.alert_delegator_service import AlerterService
 import logging
 
+LOGGER = logging.getLogger(__name__)
+
 
 class SecurityConfigSubscriber:
+
     def __init__(self,
                  rabbitmq_host: str,
                  alerter_security_config_queue_name: str,
@@ -32,12 +35,12 @@ class SecurityConfigSubscriber:
                                    auto_ack=True)
 
     def listen_for_security_config_messages(self):
-        logging.info("Listening for messages...")
+        LOGGER.info("Listening for messages...")
         self.channel.start_consuming()
 
     def receive_security_config(self, ch, method, properties, body):
         security_config_string = body.decode()
         security_config = json.loads(security_config_string)
         self.received_security_config = security_config
-        logging.info("New security config received: %s", security_config)
+        LOGGER.info("New security config received: %s", security_config)
         self.alerter_service.delegate(security_config)
