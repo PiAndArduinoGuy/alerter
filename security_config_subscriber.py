@@ -7,8 +7,11 @@ from pika.exceptions import AMQPConnectionError
 
 from service.alert_delegator_service import AlerterService
 
+LOGGER = logging.getLogger(__name__)
+
 
 class SecurityConfigSubscriber:
+
     def __init__(self,
                  rabbitmq_host: str,
                  alerter_security_config_queue_name: str,
@@ -36,15 +39,15 @@ class SecurityConfigSubscriber:
                 channel.basic_consume(queue=self.alerter_security_config_queue_name,
                                       on_message_callback=self.receive_security_config,
                                       auto_ack=True)
-                logging.info("Listening for messages...")
+                LOGGER.info("Listening for messages...")
                 channel.start_consuming()
             except AMQPConnectionError as e:
-                logging.error("An AMQPConnectionError has occurred: %r, this exception is eligible for reconnect.", e)
+                LOGGER.error("An AMQPConnectionError has occurred: %r, this exception is eligible for reconnect.", e)
                 time.sleep(5)
                 logging.info("Attempting to reconnect.")
                 continue
             except Exception as e:
-                logging.error(
+                LOGGER.error(
                     "Exception occurred listening to messages: %r, this exception is not eligible for reconnect.", e)
                 raise
 
@@ -52,5 +55,5 @@ class SecurityConfigSubscriber:
         security_config_string = body.decode()
         security_config = json.loads(security_config_string)
         self.received_security_config = security_config
-        logging.info("New security config received: %s", security_config)
+        LOGGER.info("New security config received: %s", security_config)
         self.alerter_service.delegate(security_config)

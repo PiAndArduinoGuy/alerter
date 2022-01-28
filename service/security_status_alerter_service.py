@@ -3,6 +3,9 @@ from gpiozero import Buzzer
 from service.alerter import Alerter
 import logging
 
+LOGGER = logging.getLogger(__name__)
+
+
 class SecurityStatusAlerterService(Alerter):
     def __init__(self):
         super().__init__()
@@ -16,14 +19,14 @@ class SecurityStatusAlerterService(Alerter):
 
     def _sound_alarm(self):
         if not self.buzzer.is_active:
-            logging.info("Buzzer will be turned on.")
+            LOGGER.info("Buzzer will be turned on.")
             self.buzzer.on()
         else:
-            logging.info("Buzzer is currently active, will not attempt to turn it on.")
+            LOGGER.info("Buzzer is currently active, will not attempt to turn it on.")
 
     def _silence_alarm(self):
         if self.buzzer.is_active:
-            logging.info("Buzzer will be turned off")
+            LOGGER.info("Buzzer will be turned off")
             self.buzzer.off()
         else:
-            logging.info("Buzzer is not currently active, will not attempt to turn it off.")
+            LOGGER.info("Buzzer is not currently active, will not attempt to turn it off.")

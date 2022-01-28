@@ -2,6 +2,9 @@ from service.alerter import Alerter
 from gpiozero import LED
 import logging
 
+LOGGER = logging.getLogger(__name__)
+
+
 class SecurityStateAlerterService(Alerter):
     def __init__(self):
         super().__init__()
@@ -9,14 +12,14 @@ class SecurityStateAlerterService(Alerter):
 
     def alert(self):
         if not self.alarm_arm_led_indicator.is_active:
-            logging.info("Alarm arm LED indicator will be turned on.")
+            LOGGER.info("Alarm arm LED indicator will be turned on.")
             self.alarm_arm_led_indicator.on()
         else:
-            logging.info("Alarm arm LED indicator is currently active, will not attempt turn it on.")
+            LOGGER.info("Alarm arm LED indicator is currently active, will not attempt turn it on.")
 
     def stop_alert(self):
         if self.alarm_arm_led_indicator.is_active:
-            logging.info("Alarm arm LED indicator will be turned off")
+            LOGGER.info("Alarm arm LED indicator will be turned off")
             self.alarm_arm_led_indicator.off()
         else:
-            logging.info("Alarm arm LED indicator is not currently active, will not attempt to turn it off.")
+            LOGGER.info("Alarm arm LED indicator is not currently active, will not attempt to turn it off.")
