@@ -1,6 +1,6 @@
 import argparse
 
-from properties.alerter_properties import AlerterProperties
+from src.properties.alerter_properties import AlerterProperties
 
 
 class AlerterCommandLineProperties(AlerterProperties):

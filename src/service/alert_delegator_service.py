@@ -1,5 +1,5 @@
-from service.security_state_alerter_service import SecurityStateAlerterService
-from service.security_status_alerter_service import SecurityStatusAlerterService
+from src.service.security_state_alerter_service import SecurityStateAlerterService
+from src.service.security_status_alerter_service import SecurityStatusAlerterService
 
 
 class AlerterService:

@@ -1,4 +1,4 @@
-from properties.validation.alerter_properties_error import AlerterPropertiesError
+from src.properties.validation.alerter_properties_error import AlerterPropertiesError
 
 
 class AlerterPropertiesValidator:
