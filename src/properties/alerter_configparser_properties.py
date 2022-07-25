@@ -1,7 +1,7 @@
 import logging
 from configparser import ConfigParser
 
-from src.properties.alerter_properties import AlerterProperties
+from properties.alerter_properties import AlerterProperties
 
 LOGGER = logging.getLogger(__name__)
 

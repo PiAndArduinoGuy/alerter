@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.properties.validation.alerter_properties_validator import AlerterPropertiesValidator
+from properties.validation.alerter_properties_validator import AlerterPropertiesValidator
 
 
 class AlerterProperties(ABC):

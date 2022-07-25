@@ -1,6 +1,6 @@
 from gpiozero import Buzzer
 
-from src.service.alerter import Alerter
+from service.alerter import Alerter
 import logging
 
 LOGGER = logging.getLogger(__name__)

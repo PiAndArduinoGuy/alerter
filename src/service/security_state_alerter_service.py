@@ -1,4 +1,4 @@
-from src.service.alerter import Alerter
+from service.alerter import Alerter
 from gpiozero import LED
 import logging
 
