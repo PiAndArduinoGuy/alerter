@@ -9,7 +9,7 @@ from service.security_status_alerter_service import SecurityStatusAlerterService
 if __name__ == '__main__':
     alerter_properties: AlerterProperties = AlerterConfigParserProperties()
 
-    logging_setup = LoggingSetup(alerter_properties.get_logging_file_location())
+    logging_setup = LoggingSetup(alerter_properties.get_logging_file_directory())
     security_status_alerter_service = SecurityStatusAlerterService()
     security_state_alerter_service = SecurityStateAlerterService()
     alerter_service = AlerterService(security_status_alerter_service,

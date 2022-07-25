@@ -10,12 +10,13 @@ class AlerterConfigParserProperties(AlerterProperties):
     def __init__(self):
         super().__init__()
         self._config_parser = ConfigParser()
-        self._config_parser.read("../alerter_properties.ini")
+        self._config_parser.read("properties/alerter_properties.ini")
         LOGGER.info(f"Config parser used for alerter properties, .ini properties file will be used with sections "
                     f"{self._config_parser.sections()}")
+        self.set_alerter_properties()
 
-    def set_logging_file_location(self):
-        self._logging_file_location = self._config_parser['alerter.properties']['logging_file_location']
+    def set_logging_file_directory(self):
+        self._logging_file_directory = self._config_parser['alerter.properties']['logging_file_directory']
 
     def set_rabbitmq_host(self):
         self._rabbitmq_host = self._config_parser['rabbitmq.properties']['host']
