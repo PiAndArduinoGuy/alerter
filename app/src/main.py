@@ -1,5 +1,5 @@
 from logging_setup import LoggingSetup
-from properties.alerter_configparser_properties import AlerterConfigParserProperties
+from properties.alerter_environment_variable_properties import AlerterEnvironmentVariableProperties
 from properties.alerter_properties import AlerterProperties
 from security_config_subscriber import SecurityConfigSubscriber
 from service.alert_delegator_service import AlerterService
@@ -7,7 +7,7 @@ from service.security_state_alerter_service import SecurityStateAlerterService
 from service.security_status_alerter_service import SecurityStatusAlerterService
 
 if __name__ == '__main__':
-    alerter_properties: AlerterProperties = AlerterConfigParserProperties()
+    alerter_properties: AlerterProperties = AlerterEnvironmentVariableProperties()
 
     logging_setup = LoggingSetup(alerter_properties.get_logging_file_directory())
     security_status_alerter_service = SecurityStatusAlerterService()
