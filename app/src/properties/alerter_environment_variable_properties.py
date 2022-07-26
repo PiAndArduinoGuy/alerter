@@ -19,7 +19,7 @@ class AlerterEnvironmentVariableProperties(AlerterProperties):
         self._rabbitmq_host = environ['ALERTER_RABBITMQ_HOST']
 
     def set_alerter_security_config_queue_name(self):
-        self._security_config_queue_name = environ['ALERTER_SECURITY_CONFIG_QUEUE_NAME']
+        self._alerter_security_config_queue_name = environ['ALERTER_SECURITY_CONFIG_QUEUE_NAME']
 
     def set_exchange_name(self):
         self._exchange_name = environ['ALERTER_EXCHANGE_NAME']
