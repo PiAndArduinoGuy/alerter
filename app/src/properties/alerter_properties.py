@@ -1,7 +1,9 @@
+import logging
 from abc import ABC, abstractmethod
 
 from properties.validation.alerter_properties_validator import AlerterPropertiesValidator
 
+LOGGER = logging.getLogger(__name__)
 
 class AlerterProperties(ABC):
     def __init__(self):
@@ -47,3 +49,4 @@ class AlerterProperties(ABC):
         self.set_rabbitmq_host()
         self.set_alerter_security_config_queue_name()
         self.set_exchange_name()
+        LOGGER.info("Alerter properties have been set.")

@@ -1,10 +1,15 @@
+import logging
+
 from properties.alerter_properties import AlerterProperties
 from os import environ
+
+LOGGER = logging.getLogger(__name__)
 
 
 class AlerterEnvironmentVariableProperties(AlerterProperties):
     def __init__(self):
         super().__init__()
+        LOGGER.info("Environment variable alerter properties used.")
         self.set_alerter_properties()
 
     def set_logging_file_directory(self):
