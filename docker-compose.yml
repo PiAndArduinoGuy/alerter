@@ -1,0 +1,9 @@
+services:
+  app:
+    image: piandarduinoguy/alerter:latest
+    privileged: true
+    environment:
+      ALERTER_LOGGING_FILE_DIRECTORY: /logs
+      ALERTER_RABBITMQ_HOST: 192.168.3.153
+      ALERTER_SECURITY_CONFIG_QUEUE_NAME: alerter.security.config
+      ALERTER_EXCHANGE_NAME: fanout_exchange
