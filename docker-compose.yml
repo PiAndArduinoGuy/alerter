@@ -8,7 +8,7 @@ services:
       PASSWORD: 159
       LOGGING_FILE_DIRECTORY: /logs
   alerter:
-    image: piandarduinoguy/alerter:20220427
+    image: piandarduinoguy/alerter
     privileged: true
       environment:
         ALERTER_LOGGING_FILE_DIRECTORY: /logs
