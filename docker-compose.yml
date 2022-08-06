@@ -1,6 +1,6 @@
 services:
   hardware-security-controller:
-    image: piandarduinoguy/hardware-security-controller
+    image: piandarduinoguy/hardware-security-controller:20220427
     privileged: true
     environment:
       SECURITY_MICRO_SERVICE_HOST_IP: 192.168.3.153
