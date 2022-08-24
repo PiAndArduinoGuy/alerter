@@ -3,7 +3,7 @@ services:
     image: piandarduinoguy/hardware-security-controller
     privileged: true
     environment:
-      SECURITY_MICRO_SERVICE_HOST_IP: 192.168.3.153
+      SECURITY_MICRO_SERVICE_HOST_IP: security-micro-service
       SECURITY_MICRO_SERVICE_HOST_PORT: 8082
       PASSWORD: 159
       LOGGING_FILE_DIRECTORY: /logs
@@ -14,7 +14,7 @@ services:
     privileged: true
     environment:
       ALERTER_LOGGING_FILE_DIRECTORY: /logs
-      ALERTER_RABBITMQ_HOST: 192.168.3.153
+      ALERTER_RABBITMQ_HOST: rabbitmq
       ALERTER_SECURITY_CONFIG_QUEUE_NAME: alerter.security.config
       ALERTER_EXCHANGE_NAME: fanout_exchange
     networks:
