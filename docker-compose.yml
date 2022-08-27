@@ -9,6 +9,7 @@ services:
       LOGGING_FILE_DIRECTORY: /logs
     networks:
       - security-network
+    restart: always
   alerter:
     image: piandarduinoguy/alerter
     privileged: true
@@ -19,6 +20,7 @@ services:
       ALERTER_EXCHANGE_NAME: fanout_exchange
     networks:
       - security-network
+    restart: always
 networks:
   security-network:
     driver: overlay
