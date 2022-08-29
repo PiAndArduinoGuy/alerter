@@ -1,6 +1,6 @@
 services:
   hardware-security-controller:
-    image: piandarduinoguy/hardware-security-controller
+    image: piandarduinoguy/hardware-security-controller:20220427
     privileged: true
     environment:
       SECURITY_MICRO_SERVICE_HOST_IP: security-micro-service
@@ -11,7 +11,7 @@ services:
       - security-network
     restart: always
   alerter:
-    image: piandarduinoguy/alerter
+    image: piandarduinoguy/alerter:20220427
     privileged: true
     environment:
       ALERTER_LOGGING_FILE_DIRECTORY: /logs
